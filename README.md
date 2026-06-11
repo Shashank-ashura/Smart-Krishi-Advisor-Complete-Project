@@ -64,7 +64,7 @@ Install the required deep learning calculation modules and routing frameworks:
 
 Bash
 pip install flask tensorflow keras numpy pillow
-⚠️ CRITICAL NOTE: Due to GitHub's strict 100MB single-file size restriction, the pre-trained 203.25 MB neural network weights matrix file (plant_disease_recognize_model_pwp.keras) was excluded from this remote repository upload. Before running the script, ensure you manually copy your local model weights file back into the /models directory on your computer.
+### ⚠️ CRITICAL NOTE: Due to GitHub's strict 100MB single-file size restriction, the pre-trained 203.25 MB neural network weights matrix file (plant_disease_recognize_model_pwp.keras) was excluded from this remote repository upload. Before running the script, ensure you manually copy your local model weights file back into the /models directory on your computer.
 
 Execute the background micro-framework routing API listener:
 
