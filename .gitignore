@@ -1,0 +1,20 @@
+# Block all frontend dependencies and build logs
+**/node_modules/
+**/build/
+**/.env
+
+# Block all Python virtual environments and caches
+**/venv/
+**/.venv/
+**/env/
+**/__pycache__/
+**/*.pyc
+
+# Block dynamic uploaded image temp storage folders
+**/uploadimages/temp_*
+**/uploads/
+
+# Block operating system garbage files
+.DS_Store
+Thumbs.db
+**/*.keras

@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#065f46"          # Matches your main project's signature green
+backgroundColor = "#fcfdfc"       # Matches your main app background tint
+secondaryBackgroundColor = "#ecfdf5" # Matches your light green card/input accent
+textColor = "#1a1a1a"             # Clean dark text color
+font = "sans serif"

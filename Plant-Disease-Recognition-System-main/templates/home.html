@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Scanner</title>
+    <link rel="icon" href="../static/images/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #065f46;
+            --primary-light: #0f766e;
+            --accent: #10b981;
+            --dark-panel: #042f2e;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(6, 95, 70, 0.08);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #f0fdf4 0%, #e6f4ea 40%, #f4f7f5 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Glassmorphic Top Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 6%;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .navbar-brand {
+            color: var(--primary) !important;
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .btn-back-dashboard {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            background-color: #d1fae5;
+            border: 1px solid rgba(6, 95, 70, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-back-dashboard:hover {
+            background-color: #ef4444;
+            color: #ffffff !important;
+            border-color: rgba(239, 68, 68, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.15);
+        }
+
+        /* Layout Structure */
+        .main-workspace {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            padding: 50px 24px;
+            flex-grow: 1;
+        }
+
+        .hero-title-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-title-section h1 {
+            color: var(--dark-panel);
+            font-weight: 800;
+            font-size: 3rem;
+            letter-spacing: -0.8px;
+        }
+
+        .hero-title-section p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 14px auto 0;
+            line-height: 1.6;
+        }
+
+        /* Interactive Multi-Column Grid Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 40px;
+            align-items: stretch;
+        }
+
+        /* FIX 1: Moved variable layout overrides down into clean responsive container tracking wrappers */
+        @media (min-width: 900px) {
+            .workspace-grid.split-view {
+                grid-template-columns: 1fr 1.1fr;
+                justify-content: center;
+            }
+            .workspace-grid.single-view {
+                grid-template-columns: 0.75fr;
+                justify-content: center;
+            }
+        }
+
+        /* High-End Premium Cards */
+        .premium-glass-card {
+            background: var(--glass-bg);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(6, 95, 70, 0.05);
+            padding: 45px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .premium-glass-card:hover {
+            box-shadow: 0 30px 60px rgba(6, 95, 70, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-title-bar {
+            color: var(--dark-panel);
+            font-weight: 800;
+            font-size: 1.45rem;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid rgba(6, 95, 70, 0.04);
+            padding-bottom: 15px;
+        }
+
+        /* Advanced Visual Dropzone Area */
+        .advanced-dropzone {
+            border: 2px dashed rgba(6, 95, 70, 0.25);
+            background: rgba(255, 255, 255, 0.5);
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 240px;
+        }
+
+        .advanced-dropzone:hover {
+            border-color: var(--accent);
+            background: rgba(240, 253, 244, 0.6);
+        }
+
+        .advanced-dropzone i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .advanced-dropzone:hover i {
+            transform: translateY(-5px);
+        }
+
+        /* Live Image Preview Layout styling */
+        #interactive-preview-img {
+            width: 100%;
+            height: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 14px;
+            display: none;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        /* High-End Button Shape Override */
+        .btn-neural-scan {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+            color: white !important;
+            border-radius: 50px !important;
+            padding: 16px 35px !important;
+            border: none !important;
+            font-weight: 700 !important;
+            font-size: 1.05rem !important;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(6, 95, 70, 0.2);
+            transition: all 0.25s ease !important;
+            margin-top: 25px;
+        }
+
+        .btn-neural-scan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(6, 95, 70, 0.3);
+        }
+
+        /* Premium Report Element Layout */
+        .frame-report-img {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            background: #ffffff;
+            margin-bottom: 30px;
+            border: 6px solid #ffffff;
+            text-align: center;
+        }
+
+        .frame-report-img img {
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+        }
+
+        .badge-status-danger {
+            background: #fef2f2;
+            border-left: 6px solid #ef4444;
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+
+        .badge-status-danger h4 {
+            color: #991b1b;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-metric-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 22px;
+            align-items: flex-start;
+        }
+
+        .report-metric-row .icon-wrapper {
+            background: #f1f5f9;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .report-metric-row h5 {
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+        
+        .report-metric-row p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../static/images/logo.svg" alt="Logo" width="34" height="28" class="d-inline-block align-text-top">
+                Smart Krishi Advisor
+            </a>
+            <a href="#" onclick="window.close(); return false;" class="btn-back-dashboard">
+                <i class="fa-solid fa-xmark me-2"></i>Close Scanner
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-workspace">
+        <div class="hero-title-section">
+            <h1>🌱 Crop Disease Scanner</h1>
+            <p>Scan crop anomalies instantly. Upload a leaf sample photograph to activate high-fidelity neural diagnostic screening models.</p>
+        </div>
+
+        <div class="workspace-grid {% if result %}split-view{% else %}single-view{% endif %}" style="{% if not result %}margin: 0 auto;{% endif %}">
+            
+            <div class="premium-glass-card">
+                <h2 class="card-title-bar"><i class="fa-solid fa-microscope" style="color: var(--primary);"></i> Analyze Leaf Health</h2>
+                <form action="/upload/" method="POST" enctype="multipart/form-data">
+                    <div class="advanced-dropzone" onclick="document.getElementById('hiddenSystemFileField').click();">
+                        <img id="interactive-preview-img" alt="Leaf Preview Setup">
+                        <div id="dropzone-prompt-elements">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p style="color: var(--primary); margin-bottom: 4px;">Upload Leaf Image</p>
+                            <span class="text-muted small">Supports high-res PNG, JPG, or JPEG</span>
+                        </div>
+                    </div>
+                    <div id="filename-status-tag" class="text-center small text-success font-weight-bold mt-2" style="display: none; font-weight: 700;"></div>
+                    <input type="file" accept="image/png, image/jpeg" name="img" id="hiddenSystemFileField" style="display: none;" onchange="executeImageLivePreview(this)" required>
+                    <button type="submit" class="btn btn-neural-scan">Run AI Diagnosis <i class="fa-solid fa-bolt-lightning"></i></button>
+                </form>
+            </div>
+
+            {% if result %}
+            <div class="premium-glass-card">
+                <h2 class="card-title-bar" style="color: var(--dark-panel);"><i class="fa-solid fa-square-poll-vertical" style="color: var(--primary-light);"></i> Laboratory Evaluation</h2>
+                
+                <div class="frame-report-img">
+                    <img src="{{imagepath}}" alt="Analyzed Crop Tissue">
+                </div>
+
+                <div class="badge-status-danger">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Condition: {{prediction['name']}}</h4>
+                </div>
+
+                <div class="report-metric-row">
+                    <div class="icon-wrapper text-danger"><i class="fa-solid fa-bug"></i></div>
+                    <div>
+                        <h5>Pathological Vector (Cause)</h5>
+                        <p>{{prediction['cause']}}</p>
+                    </div>
+                </div>
+
+                <div class="report-metric-row" style="border-top: 1px solid rgba(6, 95, 70, 0.05); padding-top: 20px;">
+                    <div class="icon-wrapper text-success"><i class="fa-solid fa-hand-holding-medical"></i></div>
+                    <div>
+                        <h5>Remedial Plan Countermeasures (Cure)</h5>
+                        <p>{{prediction['cure']}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function executeImageLivePreview(inputField) {
+            const statusTag = document.getElementById('filename-status-tag');
+            const previewImg = document.getElementById('interactive-preview-img');
+            const promptBox = document.getElementById('dropzone-prompt-elements');
+
+            if (inputField.files && inputField.files[0]) {
+                statusTag.innerText = "✓ Specimen linked: " + inputField.files[0].name;
+                statusTag.style.display = "block";
+
+                const fileReader = new FileReader();
+                fileReader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = "block";
+                    promptBox.style.display = "none";
+                }
+                fileReader.readAsDataURL(inputField.files[0]);
+            }
+        }
+    </script>
+</body>
+</html>
