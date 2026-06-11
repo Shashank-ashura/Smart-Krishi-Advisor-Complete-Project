@@ -31,7 +31,7 @@ Because each project module functions as an individual environment on its own se
    Boot up the high-speed local frontend development layout:
    npm start
    Your browser will automatically launch the interface at: http://localhost:3000
-   📁 Module 2: The Crop Recommendation Engine (Streamlit)
+### 📁 Module 2: The Crop Recommendation Engine (Streamlit)
 Open a fresh terminal window and navigate into the recommendation directory:
 
 Bash
@@ -49,7 +49,8 @@ Run the data-driven presentation layer framework:
 
 Bash
 streamlit run app.py
-📁 Module 3: The AI Plant Disease Scanner (Flask & TensorFlow)
+
+### 📁 Module 3: The AI Plant Disease Scanner (Flask & TensorFlow)
 Open a terminal window and enter the disease scanner project directory:
 
 Bash
